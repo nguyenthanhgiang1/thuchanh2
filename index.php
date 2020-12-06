@@ -20,16 +20,19 @@ if(!$conn){
      <div class="container  mb-5">
            <div class="row">
            <div class="col-md-6 mt-5">
-           <form class="">
+           <form class="" method="$_GET" action="index.php" >
             <div class="form-group ">
             <label for="exampleInputEmail1"><h1>Tìm kiếm bài viết</h1></label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nội dung muốn tìm">
+            <input type="text" name="valu" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nội dung muốn tìm">
             </div>
-            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+            <button type="submit" name="search" class="btn btn-primary">Tìm kiếm</button>
            </form>
            </div>
            </div> 
      </div>
+     <?php 
+    
+     ?>
   <div class="container">
   <div class="row">
   <div class="col">
@@ -38,7 +41,17 @@ if(!$conn){
   </div>
   </div>
   <?php 
-$sql="select * from baiviet,tacgia,theloai where baiviet.ma_tgia=tacgia.ma_tgia and baiviet.ma_tloai=theloai.ma_tloai order by baiviet.ma_bviet";
+ $sql='';
+ if(isset($_GET['search'])){
+    $a=$_GET['valu'];
+    if(strlen($a)<4){
+      $sql="select * from baiviet where tieude like "." '% ".$a." %' or tieude= ".'"'.$a.'"';
+    }else{
+      $sql="select * from baiviet where MATCH(tieude) Against('".$a."')";
+    }
+ }else{
+  $sql="select * from baiviet,tacgia,theloai where baiviet.ma_tgia=tacgia.ma_tgia and baiviet.ma_tloai=theloai.ma_tloai order by baiviet.ma_bviet";
+ }
 $result=mysqli_query($conn,$sql);
 foreach($result as $key => $value):
     
@@ -56,18 +69,18 @@ foreach($result as $key => $value):
       <div class="row">
       <div class="col-md-2">Tiêu đề</div><div class="col-md-10"><?php echo $value['tieude'] ?></div>
       </div>
-      <div class="row">
+      <!-- <div class="row">
       <div class="col-md-2">Tác giả</div><div class="col-md-10"><?php echo $value['ten_tgia'] ?></div>
-      </div>
+      </div> -->
       <div class="row">
       <div class="col-md-2">Ngày viết</div><div class="col-md-10"><?php echo $value['ngayviet'] ?></div>
       </div>
       <div class="row">
       <div class="col-md-2">Bài viết</div><div class="col-md-10"><?php echo $value['ten_bhat'] ?></div>
       </div>
-      <div class="row">
+      <!-- <div class="row">
       <div class="col-md-2">Thể loại</div><div class="col-md-10"><?php echo $value['ten_tloai'] ?></div>
-      </div>
+      </div> -->
       <div class="row">
       <div class="col-md-2">Tóm tắt</div><div class="col-md-10"><?php  echo $tt ?></div>
       </div>
