@@ -50,9 +50,9 @@ if(!$conn){
      foreach($result as $key => $value):
     
     $tt=$value['tomtat'];
-    if(strlen($tt)>50){
-    $tt=mb_substr($tt,0,50);
-    $tt=$tt."...";
+    if(strlen($tt)>55){
+      $tt=mb_substr($tt,0,50);
+       $tt=$tt."...";
     }
     ?>
     
