@@ -3,6 +3,7 @@ $conn= mysqli_connect('localhost','root','','music');
 if(!$conn){
     echo "ket noi that bai roi";
 }
+$s= $_GET['name'];
 ?>
 
 <!doctype html>
@@ -23,7 +24,7 @@ if(!$conn){
            <form class="" action="search.php" method="GET">
             <div class="form-group ">
             <label for="exampleInputEmail1"><h1>Tìm kiếm bài viết</h1></label>
-            <input type="text" name="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Tìm kiếm">
+            <input type="text" name="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="nhap vao van ban" value="<?php echo $s ?>">
             </div>
             <input type="submit" name="submit" class="btn btn-primary" value="Tìm kiếm">
            </form>
@@ -33,7 +34,7 @@ if(!$conn){
      <div class="container">
     <?php 
     if(isset($_GET['submit'])):
-         $s= $_GET['name'];
+        //  $s= $_GET['name'];
          if(!$s==""):
          $sql=
          "select a.ma_bviet,a.tieude,b.ten_tgia,a.ngayviet,a.ten_bhat,c.ten_tloai,a.tomtat
@@ -44,7 +45,7 @@ if(!$conn){
          $result=mysqli_query($conn,$sql);
     ?>
     <div class="row">
-          <div class="col"><h1><?php if(!$s=="") echo "Kết quả tìm kiếm từ : ".$s ?></h1>   </div>
+          <div class="col"><h1><?php if(!$s=="") echo "Kết quả tìm kiếm : ".$result -> num_rows." bản ghi" ?></h1>   </div>
     </div>
     <?php
      foreach($result as $key => $value):
